@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.app.focusonadvancenavigation.home.view.HomeFragment"
+        android:label="@string/label_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.app.focusonadvancenavigation.home.view.ProductDetailFragment"
+        android:label="@string/label_product_detail"
+        tools:layout="@layout/fragment_product_detail" >
+        <action
+            android:id="@+id/action_productDetailFragment_to_productDetailDialogFragment"
+            app:destination="@id/productDetailDialogFragment" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_productBasketFragment"
+            app:destination="@id/productBasketFragment" />
+        <argument
+            android:name="selectedProduct"
+            app:argType="com.app.focusonadvancenavigation.home.model.Product" />
+    </fragment>
+    <dialog
+        android:id="@+id/productDetailDialogFragment"
+        android:name="com.app.focusonadvancenavigation.home.view.ProductDetailDialogFragment"
+        android:label="fragment_product_detail_dialog"
+        tools:layout="@layout/fragment_product_detail_dialog" />
+    <dialog
+        android:id="@+id/productBasketFragment"
+        android:name="com.app.focusonadvancenavigation.home.view.ProductBasketFragment"
+        tools:layout="@layout/fragment_product_basket"
+        android:label="ProductBasketFragment" />
+</navigation>
