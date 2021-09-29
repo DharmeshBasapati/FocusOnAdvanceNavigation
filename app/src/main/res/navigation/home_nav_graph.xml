@@ -42,5 +42,7 @@
         android:id="@+id/productBasketFragment"
         android:name="com.app.focusonadvancenavigation.home.view.ProductBasketFragment"
         tools:layout="@layout/fragment_product_basket"
-        android:label="ProductBasketFragment" />
+        android:label="ProductBasketFragment" >
+
+    </dialog>
 </navigation>

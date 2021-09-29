@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
                 requireActivity(),
                 ViewModelFactory(
                     DatabaseBuilder.getDBInstance(requireContext().applicationContext)
-                        .productsDao()
+                        .focusDao()
                 )
             ).get(HomeViewModel::class.java)
     }

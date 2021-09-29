@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.app.focusonadvancenavigation.databinding.RowItemProfileMenusBinding
 import com.app.focusonadvancenavigation.profile.model.ProfileMenuItems
+import com.bumptech.glide.Glide
 import kotlin.random.Random
 
 class ProfileMenuAdapter(private val menuList: List<ProfileMenuItems>) :
@@ -24,7 +25,9 @@ class ProfileMenuAdapter(private val menuList: List<ProfileMenuItems>) :
             with(menuList[position]) {
 
                 rowItemProfileMenusBinding.tvMenuItem.text = menuName
-                rowItemProfileMenusBinding.ivMenuItem.setImageResource(menuImage)
+                //rowItemProfileMenusBinding.ivMenuItem.setImageResource(menuImage)
+
+                Glide.with(itemView.context).load(menuImage).into(rowItemProfileMenusBinding.ivMenuItem)
 
                 val redNum = Random.nextInt(0, 255)
                 val greenNum = Random.nextInt(0, 255)

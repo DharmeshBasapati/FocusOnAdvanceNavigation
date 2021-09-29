@@ -7,14 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.focusonadvancenavigation.home.model.Product
 import com.app.focusonadvancenavigation.home.model.Rating
-import com.app.focusonadvancenavigation.room.dao.ProductsDao
+import com.app.focusonadvancenavigation.room.dao.FocusDao
 import com.app.focusonadvancenavigation.room.entity.Products
 import com.app.focusonadvancenavigation.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
-class HomeViewModel(private val productsDao: ProductsDao) : ViewModel() {
+class HomeViewModel(private val focusDao: FocusDao) : ViewModel() {
 
     val products = MutableLiveData<Resource<List<Products>>>()
 
@@ -28,7 +28,7 @@ class HomeViewModel(private val productsDao: ProductsDao) : ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            val productsListFromDB = productsDao.getAllProducts()
+            val productsListFromDB = focusDao.getAllProducts()
 
             if (productsListFromDB.isEmpty()) {
                 Log.d(
@@ -53,6 +53,7 @@ class HomeViewModel(private val productsDao: ProductsDao) : ViewModel() {
                 productsListFromAPIorStatic.forEach { product ->
 
                     val productToInsert = Products(
+                        productId = product.productId,
                         productTitle = product.productTitle,
                         productDescription = product.productDescription,
                         productCategory = product.productCategory,
@@ -67,7 +68,7 @@ class HomeViewModel(private val productsDao: ProductsDao) : ViewModel() {
                 }
 
                 viewModelScope.launch(Dispatchers.IO) {
-                    productsDao.insertAllProducts(productListToInsertInDB)
+                    focusDao.insertAllProducts(productListToInsertInDB)
                 }.invokeOnCompletion {
                     products.postValue(Resource.success(productListToInsertInDB))
                 }
