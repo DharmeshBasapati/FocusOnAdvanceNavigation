@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.app.focusonadvancenavigation.R
@@ -52,8 +53,6 @@ class ProductDetailFragment : Fragment() {
             args.selectedProduct.rateCount.toString()
         )
 
-
-
         binding.tvProductTitle.text = args.selectedProduct.productTitle
 
         binding.tvProductPrice.text =
@@ -61,6 +60,22 @@ class ProductDetailFragment : Fragment() {
 
         binding.tvProductDescription.text =
             getString(R.string.label_description, args.selectedProduct.productDescription)
+
+        binding.tvProductDescription2.text =
+            getString(R.string.label_description, args.selectedProduct.productDescription)
+
+        binding.tvProductDescription3.text =
+            getString(R.string.label_description, args.selectedProduct.productDescription)
+
+        binding.btnAddToBasket.setOnClickListener {
+            val action = ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment()
+            findNavController().navigate(action)
+        }
+
+        binding.btnAddToWishlist.setOnClickListener {
+            val action = ProductDetailFragmentDirections.actionProductDetailFragmentToProductDetailDialogFragment(args.selectedProduct.productTitle)
+            findNavController().navigate(action)
+        }
 
         return binding.root
     }

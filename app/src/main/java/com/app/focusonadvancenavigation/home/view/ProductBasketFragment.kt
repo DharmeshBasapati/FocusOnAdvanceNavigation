@@ -17,7 +17,11 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
     ): View {
         val binding = FragmentProductBasketBinding.inflate(layoutInflater)
 
-        binding.btnContinueShopping.setOnClickListener {
+        binding.btnShopMore.setOnClickListener {
+            dismiss()
+        }
+
+        binding.btnCheckout.setOnClickListener {
             dismiss()
         }
 

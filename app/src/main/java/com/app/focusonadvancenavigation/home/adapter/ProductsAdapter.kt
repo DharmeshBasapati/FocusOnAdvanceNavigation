@@ -31,8 +31,8 @@ class ProductsAdapter(var productList: List<Products>, val onItemClick: (Product
                 Glide.with(itemView.context).load(productImage)
                     .apply(
                         RequestOptions()
-                            .placeholder(R.drawable.ic_baseline_person_24)
-                            .error(R.drawable.ic_baseline_person_24)
+                            .placeholder(R.drawable.icon_placeholder)
+                            .error(R.drawable.icon_placeholder)
                             //.circleCrop()
                     )
                     .into(rowItemProductsInGridBinding.ivProductImage)

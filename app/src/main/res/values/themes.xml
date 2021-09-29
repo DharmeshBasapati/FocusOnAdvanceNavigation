@@ -17,6 +17,8 @@
 
         <!--For Primary Text Color -->
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+
+        <item name="fontFamily">@font/nunito_regular</item>
     </style>
     <style name="roundedImageView" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>

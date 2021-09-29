@@ -4,94 +4,150 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorSurface"
+    android:orientation="vertical"
     tools:context=".home.view.ProductDetailFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivProductImage"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_margin="20dp"
         android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_baseline_home_work_24"
         app:contentPadding="10dp"
-        android:layout_margin="20dp"
         app:shapeAppearanceOverlay="@style/roundedImageView" />
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/top_cut_back"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp">
+            android:background="@drawable/top_cut_back"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipProductCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:textColor="#fbe9e7"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:chipBackgroundColor="#e64a19"
-                app:chipCornerRadius="20dp"
-                tools:text="men's Clothing" />
-
-            <Space
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_margin="10dp">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipProductRating"
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:layout_marginStart="5dp"
-                android:textColor="#388e3c"
-                android:textSize="15sp"
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipProductCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:textColor="#fbe9e7"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:chipBackgroundColor="#e64a19"
+                    app:chipCornerRadius="20dp"
+                    tools:text="men's Clothing" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipProductRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="5dp"
+                    android:textColor="#388e3c"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    app:chipBackgroundColor="#a5d6a7"
+                    app:chipCornerRadius="20dp"
+                    app:chipIcon="@drawable/ic_baseline_star_24"
+                    app:chipIconSize="15dp"
+                    app:chipIconTint="#388e3c"
+                    tools:text="4.7 (145)" />
+
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="18sp"
+                tools:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="25sp"
                 android:textStyle="bold"
-                app:chipBackgroundColor="#a5d6a7"
-                app:chipCornerRadius="20dp"
-                app:chipIcon="@drawable/ic_baseline_star_24"
-                app:chipIconSize="15dp"
-                app:chipIconTint="#388e3c"
-                tools:text="4.7 (145)" />
+                tools:text="$109.95" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:textSize="15sp"
+                tools:text="Description:\n\nYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductDescription2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:textSize="15sp"
+                tools:text="Description:\n\nYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvProductDescription3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="10dp"
+                android:textSize="15sp"
+                tools:text="Description:\n\nYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp">
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddToWishlist"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Add to wishlist" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddToBasket"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Add to Cart" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="5dp"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="18sp"
-            tools:text="Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:textColor="@color/textColorPrimary"
-            android:textSize="25sp"
-            android:textStyle="bold"
-            tools:text="$109.95" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tvProductDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginVertical="10dp"
-            android:textSize="15sp"
-            tools:text="Description:\n\nYour perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday" />
-    </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.app.focusonadvancenavigation.profile
+package com.app.focusonadvancenavigation.profile.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

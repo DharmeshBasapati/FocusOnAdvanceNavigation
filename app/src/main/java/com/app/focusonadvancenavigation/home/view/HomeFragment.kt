@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentHomeBinding
 import com.app.focusonadvancenavigation.home.adapter.ProductsAdapter
-import com.app.focusonadvancenavigation.home.model.Product
 import com.app.focusonadvancenavigation.home.viewmodel.HomeViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
 import com.app.focusonadvancenavigation.room.entity.Products
@@ -50,7 +50,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupUI() {
-        binding.rvProducts.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvProducts.layoutManager =
+            StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
         productsAdapter = ProductsAdapter(arrayListOf()) { selectedProduct, imgView ->
             navigateToProductDetail(selectedProduct, imgView)

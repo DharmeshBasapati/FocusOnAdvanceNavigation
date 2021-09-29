@@ -33,7 +33,11 @@
         android:id="@+id/productDetailDialogFragment"
         android:name="com.app.focusonadvancenavigation.home.view.ProductDetailDialogFragment"
         android:label="fragment_product_detail_dialog"
-        tools:layout="@layout/fragment_product_detail_dialog" />
+        tools:layout="@layout/fragment_product_detail_dialog" >
+        <argument
+            android:name="productName"
+            app:argType="string" />
+    </dialog>
     <dialog
         android:id="@+id/productBasketFragment"
         android:name="com.app.focusonadvancenavigation.home.view.ProductBasketFragment"
