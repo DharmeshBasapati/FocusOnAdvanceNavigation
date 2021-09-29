@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -27,6 +28,13 @@ class HomeFragment : Fragment() {
     private lateinit var productsAdapter: ProductsAdapter
     private lateinit var binding: FragmentHomeBinding
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        binding.rvProducts.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,32 +57,6 @@ class HomeFragment : Fragment() {
         }
 
         binding.rvProducts.adapter = productsAdapter
-
-        //parseStaticJson()
-    }
-
-    private fun parseStaticJson() {
-        /*val jsonArray = JSONArray(productResponse)
-        val productList = ArrayList<Product>()
-        for (i in 0 until jsonArray.length()) {
-            val jsonObj = jsonArray.getJSONObject(i)
-            Log.d("TAG", "setupUI: $jsonObj")
-            val product = Product(
-                jsonObj.getInt("id"),
-                jsonObj.getString("title"),
-                jsonObj.getString("description"),
-                jsonObj.getString("category"),
-                jsonObj.getDouble("price"),
-                jsonObj.getString("image"),
-                Rating(
-                    jsonObj.getJSONObject("rating").getDouble("rate"),
-                    jsonObj.getJSONObject("rating").getInt("count")
-                )
-            )
-            productList.add(product)
-        }
-        updateProductsList(productList)
-        binding.progressBar.visibility = View.GONE*/
     }
 
     private fun setupViewModel() {

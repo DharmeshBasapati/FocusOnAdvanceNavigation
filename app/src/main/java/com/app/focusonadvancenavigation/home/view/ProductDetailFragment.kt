@@ -11,6 +11,7 @@ import com.app.focusonadvancenavigation.R
 import com.app.focusonadvancenavigation.databinding.FragmentProductDetailBinding
 import com.bumptech.glide.Glide
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class ProductDetailFragment : Fragment() {
 
@@ -21,6 +22,7 @@ class ProductDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition =
             TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+        postponeEnterTransition(100, TimeUnit.MILLISECONDS)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
