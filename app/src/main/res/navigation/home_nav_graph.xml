@@ -27,7 +27,7 @@
             app:destination="@id/productBasketFragment" />
         <argument
             android:name="selectedProduct"
-            app:argType="com.app.focusonadvancenavigation.home.model.Product" />
+            app:argType="com.app.focusonadvancenavigation.room.entity.Products" />
     </fragment>
     <dialog
         android:id="@+id/productDetailDialogFragment"

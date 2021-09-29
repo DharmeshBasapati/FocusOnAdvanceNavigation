@@ -17,6 +17,21 @@ class ProductDetailFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailBinding
     private val args: ProductDetailFragmentArgs by navArgs()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition =
+            TransitionInflater.from(requireContext()).inflateTransition(android.R.transition.move)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.ivProductImage.transitionName = args.selectedProduct.productImage
+
+        Glide.with(requireActivity()).load(args.selectedProduct.productImage)
+            .into(binding.ivProductImage)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,12 +46,11 @@ class ProductDetailFragment : Fragment() {
 
         binding.chipProductRating.text = getString(
             R.string.label_rating,
-            args.selectedProduct.rating?.rate.toString(),
-            args.selectedProduct.rating?.count.toString()
+            args.selectedProduct.ratingStars.toString(),
+            args.selectedProduct.rateCount.toString()
         )
 
-        Glide.with(requireActivity()).load(args.selectedProduct.productImage)
-            .into(binding.ivProductImage)
+
 
         binding.tvProductTitle.text = args.selectedProduct.productTitle
 

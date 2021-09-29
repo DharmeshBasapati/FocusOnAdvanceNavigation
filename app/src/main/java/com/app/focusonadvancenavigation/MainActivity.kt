@@ -32,6 +32,16 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment
 
         navController = navHostFragment.navController
+
+        /*navController.addOnDestinationChangedListener { _, destination, _ ->
+
+            if(destination.id == R.id.productDetailFragment){
+                supportActionBar?.hide()
+            }else{
+                supportActionBar?.show()
+            }
+
+        }*/
     }
 
     private fun setupActionBar() {

@@ -6,11 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.focusonadvancenavigation.R
 import com.app.focusonadvancenavigation.databinding.RowItemProductsInGridBinding
 import com.app.focusonadvancenavigation.home.model.Product
+import com.app.focusonadvancenavigation.room.entity.Products
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.imageview.ShapeableImageView
 
-class ProductsAdapter(var productList: List<Product>, val onItemClick: (Product,ShapeableImageView)->Unit) :
+class ProductsAdapter(var productList: List<Products>, val onItemClick: (Products,ShapeableImageView)->Unit) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
     inner class ViewHolder(val rowItemProductsInGridBinding: RowItemProductsInGridBinding) :
         RecyclerView.ViewHolder(rowItemProductsInGridBinding.root)
@@ -26,6 +27,7 @@ class ProductsAdapter(var productList: List<Product>, val onItemClick: (Product,
                 rowItemProductsInGridBinding.tvProductTitle.text = productTitle
                 rowItemProductsInGridBinding.tvProductPrice.text =
                     itemView.context.getString(R.string.label_price, productPrice.toString())
+                rowItemProductsInGridBinding.ivProductImage.transitionName = productImage
                 Glide.with(itemView.context).load(productImage)
                     .apply(
                         RequestOptions()
@@ -45,7 +47,7 @@ class ProductsAdapter(var productList: List<Product>, val onItemClick: (Product,
 
     override fun getItemCount() = productList.size
 
-    fun addProducts(data: List<Product>) {
+    fun addProducts(data: List<Products>) {
         productList = data
     }
 }
