@@ -121,7 +121,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp">
 
-
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAddToWishlist"
                     android:layout_width="0dp"
@@ -130,21 +129,23 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Add to wishlist" />
+                    android:text="Add to wishlist"
+                    android:textSize="12sp" />
 
                 <Space
                     android:layout_width="10dp"
                     android:layout_height="wrap_content" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAddToBasket"
+                    android:id="@+id/btnChooseQuantity"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="Add to Cart" />
+                    android:text="Choose Quantity"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

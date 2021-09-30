@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.focusonadvancenavigation.room.dao.FocusDao
+import com.app.focusonadvancenavigation.room.entity.Cart
 import com.app.focusonadvancenavigation.room.entity.CartProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,4 +39,17 @@ class ProductBasketViewModel(private val focusDao: FocusDao) : ViewModel() {
 
     }
 
+    fun addItemToCart( productId:Int,  quantity: Int){
+
+        viewModelScope.launch(Dispatchers.IO) {
+            focusDao.insertItemInCart(
+                Cart(
+                    productId = productId,
+                    productQty = quantity
+                )
+            )
+
+        }
+
+    }
 }

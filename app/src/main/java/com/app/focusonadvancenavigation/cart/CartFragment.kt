@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.focusonadvancenavigation.MainViewModel
 import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentCartBinding
 import com.app.focusonadvancenavigation.home.adapter.CartProductsAdapter
@@ -58,14 +59,21 @@ class CartFragment : Fragment() {
     }
 
     private fun setupObserver() {
+
+        val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
         productBasketViewModel.getCartProducts().observe(requireActivity(), { cartProductsList ->
+
+            mainViewModel.updateCartSize(cartProductsList.size)
+
             updateCartProductsList(cartProductsList)
+
         })
     }
 
     private fun updateCartProductsList(list: List<CartProducts>) {
         if (list.isNotEmpty()) {
-            binding.tvItemsInTheCartCount.visibility = View.VISIBLE
+            binding.tvItemsInTheCartCount.visibility = View.GONE
             binding.rvCartProducts.visibility = View.VISIBLE
             binding.ivEmptyCart.visibility = View.GONE
             binding.tvItemsInTheCartCount.text = "Items in the cart (${list.size.toString()})"

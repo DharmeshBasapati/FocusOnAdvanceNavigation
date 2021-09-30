@@ -4,22 +4,27 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
+import com.app.focusonadvancenavigation.MainViewModel
+import com.app.focusonadvancenavigation.R
 import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentProductBasketBinding
-import com.app.focusonadvancenavigation.home.adapter.CartProductsAdapter
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
-import com.app.focusonadvancenavigation.room.entity.CartProducts
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import java.math.RoundingMode
 
 class ProductBasketFragment : BottomSheetDialogFragment() {
 
 
-    private lateinit var cartProductsAdapter: CartProductsAdapter
+    private var currentProductQty: Int = 0
     private lateinit var productBasketViewModel: ProductBasketViewModel
     private lateinit var binding: FragmentProductBasketBinding
+    private val args: ProductBasketFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,18 +33,43 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
         binding = FragmentProductBasketBinding.inflate(layoutInflater)
 
         setupViewModel()
-        setupCartProductsList()
-        setupObserver()
-
-        binding.btnShopMore.setOnClickListener {
+        setupProductData()
+        binding.btnAddToCart.setOnClickListener {
+            productBasketViewModel.addItemToCart(args.selectedProduct.productId, currentProductQty)
+            productBasketViewModel.fetchCartProducts()
+            setupObserver()
             dismiss()
+            Toast.makeText(requireContext(), "Item added to cart.", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnCheckout.setOnClickListener {
-            dismiss()
+        binding.chipMinus.setOnClickListener {
+            if (currentProductQty > 1) {
+                currentProductQty -= 1
+                updateQuantityText()
+            }
+        }
+
+        binding.chipPlus.setOnClickListener {
+            if (currentProductQty < 10) {
+                currentProductQty += 1
+                updateQuantityText()
+            }
         }
 
         return binding.root
+    }
+
+    private fun setupObserver() {
+
+        val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+
+        productBasketViewModel.getCartProducts().observe(requireActivity(), {
+
+            val cartSize = it.size
+            mainViewModel.updateCartSize(cartSize)
+
+        })
+
     }
 
     private fun setupViewModel() {
@@ -50,37 +80,33 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
             )
         ).get(ProductBasketViewModel::class.java)
 
-        productBasketViewModel.fetchCartProducts()
     }
 
-    private fun setupCartProductsList() {
-        binding.rvCartProducts.layoutManager = LinearLayoutManager(requireContext())
-        cartProductsAdapter = CartProductsAdapter(arrayListOf()) { productIdToDelete ->
-            productBasketViewModel.deleteItemFromCart(productIdToDelete)
-        }
-        binding.rvCartProducts.adapter = cartProductsAdapter
+    private fun updateQuantityText() {
+        binding.tvQty.text = currentProductQty.toString()
+
+        val priceWithQty = (args.selectedProduct.productPrice * currentProductQty).toBigDecimal()
+            .setScale(2, RoundingMode.UP).toDouble()
+
+        binding.tvProductPrice.text =
+            getString(R.string.label_price, priceWithQty.toString())
     }
 
-    private fun setupObserver() {
-        productBasketViewModel.getCartProducts().observe(requireActivity(), { cartProductsList ->
-            updateCartProductsList(cartProductsList)
-        })
-    }
+    private fun setupProductData() {
 
-    private fun updateCartProductsList(list: List<CartProducts>) {
-        if (list.isNotEmpty()) {
-            binding.tvItemsInTheCartCount.visibility = View.VISIBLE
-            binding.rvCartProducts.visibility = View.VISIBLE
-            binding.ivEmptyCart.visibility = View.GONE
-            binding.tvItemsInTheCartCount.text = "Items in the cart (${list.size.toString()})"
-            cartProductsAdapter.addCartProducts(list)
-        } else {
-            binding.tvItemsInTheCartCount.visibility = View.VISIBLE
-            binding.tvItemsInTheCartCount.text = "Cart is Empty"
-            binding.rvCartProducts.visibility = View.GONE
-            binding.ivEmptyCart.visibility = View.VISIBLE
+        currentProductQty = 1
+        updateQuantityText()
 
-        }
+        binding.tvProductTitle.text = args.selectedProduct.productTitle
+
+        binding.ivProductImage.transitionName = args.selectedProduct.productImage
+        Glide.with(requireContext()).load(args.selectedProduct.productImage)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.icon_placeholder)
+                    .error(R.drawable.icon_placeholder)
+            )
+            .into(binding.ivProductImage)
     }
 
 }

@@ -5,22 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.app.focusonadvancenavigation.R
-import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentProductDetailBinding
-import com.app.focusonadvancenavigation.home.viewmodel.ProductDetailViewModel
-import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
 import com.bumptech.glide.Glide
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ProductDetailFragment : Fragment() {
 
-    private lateinit var productDetailViewModel: ProductDetailViewModel
     private lateinit var binding: FragmentProductDetailBinding
     private val args: ProductDetailFragmentArgs by navArgs()
 
@@ -48,14 +43,10 @@ class ProductDetailFragment : Fragment() {
 
         populateProductDetails()
 
-        setupViewModel()
-
-        binding.btnAddToBasket.setOnClickListener {
-
-            productDetailViewModel.addItemToCart(args.selectedProduct.productId, 2)
+        binding.btnChooseQuantity.setOnClickListener {
 
             val action =
-                ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment()
+                ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment(args.selectedProduct)
             findNavController().navigate(action)
 
         }
@@ -69,15 +60,6 @@ class ProductDetailFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    private fun setupViewModel() {
-        productDetailViewModel = ViewModelProvider(
-            requireActivity(),
-            ViewModelFactory(
-                DatabaseBuilder.getDBInstance(requireContext().applicationContext).focusDao()
-            )
-        ).get(ProductDetailViewModel::class.java)
     }
 
     private fun populateProductDetails() {

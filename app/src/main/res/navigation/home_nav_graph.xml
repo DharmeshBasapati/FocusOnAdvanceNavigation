@@ -44,5 +44,8 @@
         tools:layout="@layout/fragment_product_basket"
         android:label="ProductBasketFragment" >
 
+        <argument
+            android:name="selectedProduct"
+            app:argType="com.app.focusonadvancenavigation.room.entity.Products" />
     </dialog>
 </navigation>
