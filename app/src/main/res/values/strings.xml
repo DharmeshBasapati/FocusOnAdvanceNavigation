@@ -13,4 +13,5 @@
     <string name="label_rating">%s (%s)</string>
     <string name="label_description">Description:\n\n%s</string>
     <string name="message_wishlist">%s is successfully added to wishlist.</string>
+    <string name="label_items_in_the_cart">Items in the cart (%s)</string>
 </resources>

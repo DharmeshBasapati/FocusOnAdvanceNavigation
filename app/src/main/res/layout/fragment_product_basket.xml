@@ -8,32 +8,33 @@
     android:paddingHorizontal="15dp"
     tools:context=".home.view.ProductDetailDialogFragment">
 
+    <ImageView
+        android:id="@+id/ivEmptyCart"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_empty_cart"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:visibility="gone" />
+
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tvItemsInTheCartCount"
+        android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:paddingTop="10dp"
-        android:text="Items in the cart (3)"
+        tools:text="@string/label_items_in_the_cart"
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <include
-        layout="@layout/cart_items_in_bottomsheet"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCartProducts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" />
-
-    <include
-        layout="@layout/cart_items_in_bottomsheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
-
-    <include
-        layout="@layout/cart_items_in_bottomsheet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:visibility="gone"
+        tools:itemCount="5"
+        tools:listitem="@layout/cart_items_in_bottomsheet" />
 
     <LinearLayout
         android:layout_width="match_parent"

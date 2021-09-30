@@ -1,6 +1,8 @@
 package com.app.focusonadvancenavigation.room.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
 import com.app.focusonadvancenavigation.room.entity.Cart
 import com.app.focusonadvancenavigation.room.entity.Products
 
@@ -16,10 +18,13 @@ interface FocusDao {
     @Query("Select * from cart")
     fun getCart(): List<Cart>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     fun insertItemInCart(cart: Cart)
 
-    @Delete
-    fun deleteItemFromCart(cart: Cart)
+    @Query("DELETE FROM cart WHERE productId=:productId")
+    fun deleteItemFromCart(productId: Int)
+
+    @Query("SELECT products.* FROM cart INNER JOIN products ON cart.productId = products.productId")
+    fun getCartProducts(): List<Products>
 
 }

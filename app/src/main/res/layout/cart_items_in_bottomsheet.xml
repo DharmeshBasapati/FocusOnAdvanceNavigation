@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivProductImage"
         android:layout_width="70dp"
         android:background="@color/white"
         android:layout_height="70dp"
@@ -17,17 +17,18 @@
         app:shapeAppearanceOverlay="@style/roundedImageView" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvProductName"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:text="Product Name"
-        app:layout_constraintStart_toEndOf="@id/imageView"
+        android:text="Product NameProduct NameProduct NameProduct Name"
+        app:layout_constraintStart_toEndOf="@id/ivProductImage"
+        app:layout_constraintEnd_toStartOf="@id/ivDeleteProduct"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/tvProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -35,11 +36,11 @@
         android:text="$109.97"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/imageView"
-        app:layout_constraintTop_toBottomOf="@id/textView3" />
+        app:layout_constraintStart_toEndOf="@id/ivProductImage"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ivDeleteProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
