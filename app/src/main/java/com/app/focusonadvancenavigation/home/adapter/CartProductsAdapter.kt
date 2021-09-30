@@ -3,13 +3,13 @@ package com.app.focusonadvancenavigation.home.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.focusonadvancenavigation.R
 import com.app.focusonadvancenavigation.databinding.CartItemsInBottomsheetBinding
-import com.app.focusonadvancenavigation.room.entity.Products
+import com.app.focusonadvancenavigation.room.entity.CartProducts
 import com.bumptech.glide.Glide
+import java.math.RoundingMode
 
 class CartProductsAdapter(
-    private var cartProductsList: List<Products>,
+    private var cartProductsList: List<CartProducts>,
     val onDeleteItem: (Int) -> Unit
 ) : RecyclerView.Adapter<CartProductsAdapter.ViewHolder>() {
     inner class ViewHolder(val cartItemsInBottomsheetBinding: CartItemsInBottomsheetBinding) :
@@ -28,8 +28,26 @@ class CartProductsAdapter(
 
                 cartItemsInBottomsheetBinding.tvProductName.text = productTitle
 
-                cartItemsInBottomsheetBinding.tvProductPrice.text =
-                    itemView.context.getString(R.string.label_price, productPrice.toString())
+                val priceWithQty = (productPrice * productQty).toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
+
+                cartItemsInBottomsheetBinding.tvProductPrice.text = "$$priceWithQty"
+                //cartItemsInBottomsheetBinding.tvProductPrice.text = "$" + String.format("%.2f", priceWithQty)
+
+                cartItemsInBottomsheetBinding.tvQty.text = productQty.toString()
+
+                cartItemsInBottomsheetBinding.chipMinus.setOnClickListener {
+                    if (productQty > 1) {
+                        productQty -= 1
+                        notifyItemChanged(position)
+                    }
+                }
+
+                cartItemsInBottomsheetBinding.chipPlus.setOnClickListener {
+                    if (productQty < 10) {
+                        productQty += 1
+                        notifyItemChanged(position)
+                    }
+                }
 
                 cartItemsInBottomsheetBinding.ivDeleteProduct.setOnClickListener {
                     onDeleteItem(productId)
@@ -40,7 +58,7 @@ class CartProductsAdapter(
 
     override fun getItemCount() = cartProductsList.size
 
-    fun addCartProducts(list: List<Products>) {
+    fun addCartProducts(list: List<CartProducts>) {
         cartProductsList = list
         notifyDataSetChanged()
     }

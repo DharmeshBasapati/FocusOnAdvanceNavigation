@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.app.focusonadvancenavigation.room.entity.Cart
+import com.app.focusonadvancenavigation.room.entity.CartProducts
 import com.app.focusonadvancenavigation.room.entity.Products
 
 @Dao
@@ -24,7 +25,7 @@ interface FocusDao {
     @Query("DELETE FROM cart WHERE productId=:productId")
     fun deleteItemFromCart(productId: Int)
 
-    @Query("SELECT products.* FROM cart INNER JOIN products ON cart.productId = products.productId")
-    fun getCartProducts(): List<Products>
+    @Query("SELECT cart.productQty, products.* FROM cart INNER JOIN products ON cart.productId = products.productId")
+    fun getCartProducts(): List<CartProducts>
 
 }

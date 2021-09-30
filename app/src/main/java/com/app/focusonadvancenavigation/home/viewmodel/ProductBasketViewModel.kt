@@ -5,15 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.focusonadvancenavigation.room.dao.FocusDao
-import com.app.focusonadvancenavigation.room.entity.Products
+import com.app.focusonadvancenavigation.room.entity.CartProducts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProductBasketViewModel(private val focusDao: FocusDao) : ViewModel() {
 
-    private val cartProducts = MutableLiveData<List<Products>>()
+    private val cartProducts = MutableLiveData<List<CartProducts>>()
 
-    fun getCartProducts(): LiveData<List<Products>> = cartProducts
+    fun getCartProducts(): LiveData<List<CartProducts>> = cartProducts
 
     fun fetchCartProducts() {
 

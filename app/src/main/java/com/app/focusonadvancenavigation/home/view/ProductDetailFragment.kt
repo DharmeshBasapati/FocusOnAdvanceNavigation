@@ -1,29 +1,26 @@
 package com.app.focusonadvancenavigation.home.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.app.focusonadvancenavigation.R
+import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentProductDetailBinding
+import com.app.focusonadvancenavigation.home.viewmodel.ProductDetailViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
-import com.app.focusonadvancenavigation.room.entity.Cart
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ProductDetailFragment : Fragment() {
 
-    private lateinit var itemsInCartFromDB: List<Cart>
+    private lateinit var productDetailViewModel: ProductDetailViewModel
     private lateinit var binding: FragmentProductDetailBinding
     private val args: ProductDetailFragmentArgs by navArgs()
 
@@ -43,13 +40,47 @@ class ProductDetailFragment : Fragment() {
             .into(binding.ivProductImage)
     }
 
-    @DelicateCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProductDetailBinding.inflate(layoutInflater)
 
+        populateProductDetails()
+
+        setupViewModel()
+
+        binding.btnAddToBasket.setOnClickListener {
+
+            productDetailViewModel.addItemToCart(args.selectedProduct.productId, 2)
+
+            val action =
+                ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment()
+            findNavController().navigate(action)
+
+        }
+
+        binding.btnAddToWishlist.setOnClickListener {
+            val action =
+                ProductDetailFragmentDirections.actionProductDetailFragmentToProductDetailDialogFragment(
+                    args.selectedProduct.productTitle
+                )
+            findNavController().navigate(action)
+        }
+
+        return binding.root
+    }
+
+    private fun setupViewModel() {
+        productDetailViewModel = ViewModelProvider(
+            requireActivity(),
+            ViewModelFactory(
+                DatabaseBuilder.getDBInstance(requireContext().applicationContext).focusDao()
+            )
+        ).get(ProductDetailViewModel::class.java)
+    }
+
+    private fun populateProductDetails() {
         binding.chipProductCategory.text = args.selectedProduct.productCategory.replaceFirstChar {
             if (it.isLowerCase()) it.titlecase(
                 Locale.getDefault()
@@ -75,40 +106,6 @@ class ProductDetailFragment : Fragment() {
 
         binding.tvProductDescription3.text =
             getString(R.string.label_description, args.selectedProduct.productDescription)
-
-        binding.btnAddToBasket.setOnClickListener {
-
-            GlobalScope.launch(Dispatchers.IO) {
-                val focusDao =
-                    DatabaseBuilder.getDBInstance(requireContext().applicationContext).focusDao()
-                focusDao.insertItemInCart(
-                    Cart(
-                        productId = args.selectedProduct.productId,
-                        productQty = 2
-                    )
-                )
-
-            }.invokeOnCompletion {
-
-                GlobalScope.launch(Dispatchers.Main){
-                    val action = ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment()
-                    findNavController().navigate(action)
-                }
-
-            }
-
-
-        }
-
-        binding.btnAddToWishlist.setOnClickListener {
-            val action =
-                ProductDetailFragmentDirections.actionProductDetailFragmentToProductDetailDialogFragment(
-                    args.selectedProduct.productTitle
-                )
-            findNavController().navigate(action)
-        }
-
-        return binding.root
     }
 
 }

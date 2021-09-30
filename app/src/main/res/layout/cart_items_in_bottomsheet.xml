@@ -2,14 +2,15 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingVertical="10dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivProductImage"
         android:layout_width="70dp"
-        android:background="@color/white"
         android:layout_height="70dp"
         android:layout_margin="10dp"
+        android:background="@color/white"
         android:scaleType="fitCenter"
         android:src="@drawable/sample_shirt"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +24,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:text="Product NameProduct NameProduct NameProduct Name"
-        app:layout_constraintStart_toEndOf="@id/ivProductImage"
         app:layout_constraintEnd_toStartOf="@id/ivDeleteProduct"
+        app:layout_constraintStart_toEndOf="@id/ivProductImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -37,6 +38,38 @@
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@id/ivProductImage"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipMinus"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:chipCornerRadius="10dp"
+        app:chipIcon="@drawable/ic_minus_qty"
+        app:layout_constraintStart_toEndOf="@id/tvProductPrice"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+
+    <TextView
+        android:id="@+id/tvQty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="5"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/chipMinus"
+        app:layout_constraintTop_toBottomOf="@id/tvProductName" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipPlus"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:chipCornerRadius="10dp"
+        app:chipIcon="@drawable/ic_add_qty"
+        app:layout_constraintStart_toEndOf="@id/tvQty"
         app:layout_constraintTop_toBottomOf="@id/tvProductName" />
 
     <ImageView

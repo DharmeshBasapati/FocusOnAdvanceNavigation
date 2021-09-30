@@ -13,7 +13,7 @@ import com.app.focusonadvancenavigation.databinding.FragmentCartBinding
 import com.app.focusonadvancenavigation.home.adapter.CartProductsAdapter
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
-import com.app.focusonadvancenavigation.room.entity.Products
+import com.app.focusonadvancenavigation.room.entity.CartProducts
 
 class CartFragment : Fragment() {
 
@@ -63,17 +63,15 @@ class CartFragment : Fragment() {
         })
     }
 
-    private fun updateCartProductsList(list: List<Products>) {
+    private fun updateCartProductsList(list: List<CartProducts>) {
         if (list.isNotEmpty()) {
             binding.tvItemsInTheCartCount.visibility = View.VISIBLE
             binding.rvCartProducts.visibility = View.VISIBLE
             binding.ivEmptyCart.visibility = View.GONE
             binding.tvItemsInTheCartCount.text = "Items in the cart (${list.size.toString()})"
-            binding.btnCheckout.visibility = View.GONE
+            binding.btnCheckout.visibility = View.VISIBLE
             cartProductsAdapter.addCartProducts(list)
-
         } else {
-
             binding.tvItemsInTheCartCount.visibility = View.VISIBLE
             binding.tvItemsInTheCartCount.text = "Cart is Empty"
             binding.rvCartProducts.visibility = View.GONE

@@ -11,7 +11,7 @@ import com.app.focusonadvancenavigation.databinding.FragmentProductBasketBinding
 import com.app.focusonadvancenavigation.home.adapter.CartProductsAdapter
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
-import com.app.focusonadvancenavigation.room.entity.Products
+import com.app.focusonadvancenavigation.room.entity.CartProducts
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ProductBasketFragment : BottomSheetDialogFragment() {
@@ -67,7 +67,7 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
         })
     }
 
-    private fun updateCartProductsList(list: List<Products>) {
+    private fun updateCartProductsList(list: List<CartProducts>) {
         if (list.isNotEmpty()) {
             binding.tvItemsInTheCartCount.visibility = View.VISIBLE
             binding.rvCartProducts.visibility = View.VISIBLE

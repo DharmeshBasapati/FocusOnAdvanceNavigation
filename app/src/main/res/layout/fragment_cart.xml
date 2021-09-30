@@ -1,62 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingHorizontal="15dp"
     tools:context=".cart.CartFragment">
 
     <ImageView
         android:id="@+id/ivEmptyCart"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:src="@drawable/ic_empty_cart"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.google.android.material.chip.Chip
         android:id="@+id/tvItemsInTheCartCount"
-        android:layout_width="match_parent"
-        android:gravity="center"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingTop="10dp"
-        tools:text="@string/label_items_in_the_cart"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="15dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivEmptyCart"
+        tools:text="@string/label_items_in_the_cart" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCartProducts"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:itemCount="5"
-        android:visibility="gone"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/lnrButtons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvItemsInTheCartCount"
+        tools:itemCount="15"
         tools:listitem="@layout/cart_items_in_bottomsheet" />
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lnrButtons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:background="@color/colorSurface"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnShopMore"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Shop More" />
+            android:text="Shop More"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Space
+            android:id="@+id/guideline"
             android:layout_width="10dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toStartOf="@id/btnCheckout"
+            app:layout_constraintStart_toEndOf="@id/btnShopMore" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCheckout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Checkout Now" />
-    </LinearLayout>
+            android:text="Checkout Now"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
