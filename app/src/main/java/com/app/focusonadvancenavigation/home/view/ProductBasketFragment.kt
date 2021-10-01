@@ -13,10 +13,11 @@ import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentProductBasketBinding
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
+import com.app.focusonadvancenavigation.room.entity.CartProducts
+import com.app.focusonadvancenavigation.utils.FocusHelper
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.math.RoundingMode
 
 class ProductBasketFragment : BottomSheetDialogFragment() {
 
@@ -33,13 +34,27 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
         binding = FragmentProductBasketBinding.inflate(layoutInflater)
 
         setupViewModel()
-        setupProductData()
+
         binding.btnAddToCart.setOnClickListener {
-            productBasketViewModel.addItemToCart(args.selectedProduct.productId, currentProductQty)
+
+            if (args.isProductExistInCart) {
+                productBasketViewModel.updateItemInCart(
+                    args.selectedProduct.productId,
+                    currentProductQty
+                )
+                Toast.makeText(requireContext(), "Item updated to cart.", Toast.LENGTH_SHORT).show()
+            } else {
+                productBasketViewModel.addItemToCart(
+                    args.selectedProduct.productId,
+                    currentProductQty
+                )
+                Toast.makeText(requireContext(), "Item added to cart.", Toast.LENGTH_SHORT).show()
+            }
+
             productBasketViewModel.fetchCartProducts()
             setupObserver()
             dismiss()
-            Toast.makeText(requireContext(), "Item added to cart.", Toast.LENGTH_SHORT).show()
+
         }
 
         binding.chipMinus.setOnClickListener {
@@ -80,19 +95,48 @@ class ProductBasketFragment : BottomSheetDialogFragment() {
             )
         ).get(ProductBasketViewModel::class.java)
 
+        if (args.isProductExistInCart) {
+            productBasketViewModel.getProductFromCart(args.selectedProduct.productId)
+
+            productBasketViewModel.getSpecificProductData().observe(requireActivity(), {
+
+                setupProductDataFromCart(it)
+
+            })
+        } else {
+            setupProductDataIfNotExistInCart()
+        }
+
+
+    }
+
+    private fun setupProductDataFromCart(cartProducts: CartProducts?) {
+
+        currentProductQty = cartProducts!!.productQty
+        updateQuantityText()
+
+        binding.tvProductTitle.text = cartProducts.productTitle
+
+        binding.ivProductImage.transitionName = cartProducts.productImage
+        Glide.with(requireContext()).load(cartProducts.productImage)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.icon_placeholder)
+                    .error(R.drawable.icon_placeholder)
+            )
+            .into(binding.ivProductImage)
+
     }
 
     private fun updateQuantityText() {
         binding.tvQty.text = currentProductQty.toString()
 
-        val priceWithQty = (args.selectedProduct.productPrice * currentProductQty).toBigDecimal()
-            .setScale(2, RoundingMode.UP).toDouble()
+        val priceWithQty = FocusHelper.convertToTwoDecimalPoints(args.selectedProduct.productPrice * currentProductQty)
 
-        binding.tvProductPrice.text =
-            getString(R.string.label_price, priceWithQty.toString())
+        binding.tvProductPrice.text = "$$priceWithQty"
     }
 
-    private fun setupProductData() {
+    private fun setupProductDataIfNotExistInCart() {
 
         currentProductQty = 1
         updateQuantityText()

@@ -22,10 +22,18 @@ interface FocusDao {
     @Insert
     fun insertItemInCart(cart: Cart)
 
+    @Query("UPDATE cart SET productQty = :newQty WHERE productId=:productId")
+    fun updateItemInCart(productId: Int, newQty: Int)
+
     @Query("DELETE FROM cart WHERE productId=:productId")
     fun deleteItemFromCart(productId: Int)
 
     @Query("SELECT cart.productQty, products.* FROM cart INNER JOIN products ON cart.productId = products.productId")
     fun getCartProducts(): List<CartProducts>
 
+    @Query("SELECT COUNT()  FROM cart WHERE cart.productId = :productId")
+    fun checkIfProductExistInCart(productId: Int): Int
+
+    @Query("SELECT cart.productQty, products.* FROM cart INNER JOIN products ON cart.productId = products.productId WHERE cart.productId = :productId")
+    fun getSpecificProductFromCart(productId: Int): CartProducts
 }

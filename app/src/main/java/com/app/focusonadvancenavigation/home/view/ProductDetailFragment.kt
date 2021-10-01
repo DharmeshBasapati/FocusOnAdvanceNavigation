@@ -5,17 +5,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.app.focusonadvancenavigation.R
+import com.app.focusonadvancenavigation.base.ViewModelFactory
 import com.app.focusonadvancenavigation.databinding.FragmentProductDetailBinding
+import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
+import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
 import com.bumptech.glide.Glide
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class ProductDetailFragment : Fragment() {
 
+    private var isProductExistInCart: Boolean? = false
+    private lateinit var productBasketViewModel: ProductBasketViewModel
     private lateinit var binding: FragmentProductDetailBinding
     private val args: ProductDetailFragmentArgs by navArgs()
 
@@ -43,10 +49,12 @@ class ProductDetailFragment : Fragment() {
 
         populateProductDetails()
 
+        setupViewModelAndObserve()
+
         binding.btnChooseQuantity.setOnClickListener {
 
             val action =
-                ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment(args.selectedProduct)
+                ProductDetailFragmentDirections.actionProductDetailFragmentToProductBasketFragment(args.selectedProduct, isProductExistInCart!!)
             findNavController().navigate(action)
 
         }
@@ -60,6 +68,27 @@ class ProductDetailFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun setupViewModelAndObserve(){
+
+        productBasketViewModel = ViewModelProvider(requireActivity(),ViewModelFactory(DatabaseBuilder.getDBInstance(requireContext().applicationContext).focusDao()))
+            .get(ProductBasketViewModel::class.java)
+
+        productBasketViewModel.checkProductExistInCart(args.selectedProduct.productId)
+
+        productBasketViewModel.checkIfProductExistsInCart().observe(requireActivity(),{ isProductExists ->
+
+            isProductExistInCart = isProductExists
+
+            if(isProductExistInCart!!){
+                binding.btnChooseQuantity.text = "Update Quantity"
+            }else{
+                binding.btnChooseQuantity.text = "Choose Quantity"
+            }
+
+        })
+
     }
 
     private fun populateProductDetails() {

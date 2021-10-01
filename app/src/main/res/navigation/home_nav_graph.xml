@@ -47,5 +47,8 @@
         <argument
             android:name="selectedProduct"
             app:argType="com.app.focusonadvancenavigation.room.entity.Products" />
+        <argument
+            android:name="isProductExistInCart"
+            app:argType="boolean" />
     </dialog>
 </navigation>

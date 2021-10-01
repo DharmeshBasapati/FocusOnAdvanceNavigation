@@ -1,6 +1,7 @@
 package com.app.focusonadvancenavigation.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.app.focusonadvancenavigation.home.adapter.CartProductsAdapter
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.room.builder.DatabaseBuilder
 import com.app.focusonadvancenavigation.room.entity.CartProducts
+import com.app.focusonadvancenavigation.utils.FocusHelper
 
 class CartFragment : Fragment() {
 
@@ -36,6 +38,10 @@ class CartFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+        binding.btnCheckout.setOnClickListener {
+            calculateGrandTotal()
+        }
+
         return binding.root
     }
 
@@ -52,10 +58,37 @@ class CartFragment : Fragment() {
 
     private fun setupCartProductsList() {
         binding.rvCartProducts.layoutManager = LinearLayoutManager(requireContext())
-        cartProductsAdapter = CartProductsAdapter(arrayListOf()) { productIdToDelete ->
-            productBasketViewModel.deleteItemFromCart(productIdToDelete)
-        }
+        cartProductsAdapter =
+            CartProductsAdapter(arrayListOf(), { productIdToDelete, deleteItemPosition ->
+                //On Delete Product from Cart
+                productBasketViewModel.deleteItemFromCart(productIdToDelete)
+
+                val newCartProductsList =
+                    cartProductsAdapter.getCartProductsCurrentList().toMutableList().apply {
+                        removeAt(deleteItemPosition)
+                    }
+                updateCartProductsList(newCartProductsList)
+
+            }, {
+                //On Quantity Changed
+                calculateGrandTotal()
+
+            })
         binding.rvCartProducts.adapter = cartProductsAdapter
+    }
+
+    private fun calculateGrandTotal() {
+        var grandTotal = 0.0
+
+        for (cartProduct in cartProductsAdapter.getCartProductsCurrentList()) {
+
+            grandTotal += (cartProduct.productQty * cartProduct.productPrice)
+
+        }
+
+        Log.d("TAG", "Grand Total : $grandTotal")
+        binding.tvGrandTotalValue.text =
+            "$" + FocusHelper.convertToTwoDecimalPoints(grandTotal).toString()
     }
 
     private fun setupObserver() {
@@ -74,18 +107,22 @@ class CartFragment : Fragment() {
     private fun updateCartProductsList(list: List<CartProducts>) {
         if (list.isNotEmpty()) {
             binding.tvItemsInTheCartCount.visibility = View.GONE
-            binding.rvCartProducts.visibility = View.VISIBLE
             binding.ivEmptyCart.visibility = View.GONE
-            binding.tvItemsInTheCartCount.text = "Items in the cart (${list.size.toString()})"
+            binding.rvCartProducts.visibility = View.VISIBLE
+            binding.tvGrandTotalLabel.visibility = View.VISIBLE
+            binding.tvGrandTotalValue.visibility = View.VISIBLE
             binding.btnCheckout.visibility = View.VISIBLE
+            binding.tvItemsInTheCartCount.text = "Items in the cart (${list.size.toString()})"
             cartProductsAdapter.addCartProducts(list)
+            calculateGrandTotal()
         } else {
+            binding.rvCartProducts.visibility = View.GONE
+            binding.btnCheckout.visibility = View.GONE
+            binding.tvGrandTotalLabel.visibility = View.GONE
+            binding.tvGrandTotalValue.visibility = View.GONE
+            binding.ivEmptyCart.visibility = View.VISIBLE
             binding.tvItemsInTheCartCount.visibility = View.VISIBLE
             binding.tvItemsInTheCartCount.text = "Cart is Empty"
-            binding.rvCartProducts.visibility = View.GONE
-            binding.ivEmptyCart.visibility = View.VISIBLE
-            binding.btnCheckout.visibility = View.GONE
-
         }
     }
 

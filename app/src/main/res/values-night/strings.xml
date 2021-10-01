@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FocusOnAdvanceNavigation</string>
-    <string name="label_home">Focus Store</string>
+    <string name="app_name">Fake Store</string>
+    <string name="label_home">Fake Store</string>
     <string name="label_product_detail">Product Detail</string>
     <string name="label_cart">Cart</string>
     <string name="label_order_detail">Order Detail</string>

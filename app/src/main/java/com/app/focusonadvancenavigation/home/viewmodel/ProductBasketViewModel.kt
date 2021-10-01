@@ -33,7 +33,6 @@ class ProductBasketViewModel(private val focusDao: FocusDao) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
 
             focusDao.deleteItemFromCart(productId)
-            fetchCartProducts()
 
         }
 
@@ -48,6 +47,51 @@ class ProductBasketViewModel(private val focusDao: FocusDao) : ViewModel() {
                     productQty = quantity
                 )
             )
+
+        }
+
+    }
+
+    private val productExistsInCart = MutableLiveData<Boolean>()
+
+    fun checkIfProductExistsInCart() : LiveData<Boolean> = productExistsInCart
+
+
+    fun checkProductExistInCart(productId: Int){
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+           val count = focusDao.checkIfProductExistInCart(productId)
+
+           if(count == 0){
+               productExistsInCart.postValue(false)
+           } else{
+               productExistsInCart.postValue(true)
+           }
+
+        }
+
+    }
+
+    private val _specificProduct = MutableLiveData<CartProducts>()
+
+    fun getSpecificProductData() : LiveData<CartProducts> = _specificProduct
+
+    fun getProductFromCart(productId: Int){
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            val specificProduct =  focusDao.getSpecificProductFromCart(productId)
+            _specificProduct.postValue(specificProduct)
+        }
+
+    }
+
+    fun updateItemInCart(productId: Int, newQty: Int){
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            focusDao.updateItemInCart(productId, newQty)
 
         }
 
