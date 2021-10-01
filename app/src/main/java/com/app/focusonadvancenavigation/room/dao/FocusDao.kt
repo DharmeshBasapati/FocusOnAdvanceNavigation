@@ -1,11 +1,13 @@
 package com.app.focusonadvancenavigation.room.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.app.focusonadvancenavigation.room.entity.Cart
 import com.app.focusonadvancenavigation.room.entity.CartProducts
 import com.app.focusonadvancenavigation.room.entity.Products
+import com.app.focusonadvancenavigation.room.entity.Wishlist
 
 @Dao
 interface FocusDao {
@@ -36,4 +38,16 @@ interface FocusDao {
 
     @Query("SELECT cart.productQty, products.* FROM cart INNER JOIN products ON cart.productId = products.productId WHERE cart.productId = :productId")
     fun getSpecificProductFromCart(productId: Int): CartProducts
+
+    @Insert
+    fun insertProductInWishlist(wishlist: Wishlist)
+
+    @Query("Select * FROM wishlist")
+    fun getWishlistProducts(): List<Wishlist>
+
+    @Delete
+    fun deleteProductFromWishlist(wishlist: Wishlist)
+
+    @Query("SELECT COUNT()  FROM wishlist WHERE productId = :productId")
+    fun checkIfProductExistInWishlist(productId: Int): Int
 }

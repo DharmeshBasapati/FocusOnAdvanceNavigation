@@ -40,15 +40,24 @@ class ProfileFragment : Fragment() {
 
         createMenuList()
 
-        val profileMenuAdapter = ProfileMenuAdapter(menuList)
+        val profileMenuAdapter = ProfileMenuAdapter(menuList){ menuPosition ->
+
+            if(menuPosition==0){
+                //Go to My Wishlist Page
+                val action = ProfileFragmentDirections.actionProfileFragmentToMyWishlistFragment()
+                findNavController().navigate(action)
+            }
+
+        }
 
         binding.rvMenuItems.adapter = profileMenuAdapter
 
     }
 
     private fun createMenuList() {
-        menuList = ArrayList<ProfileMenuItems>()
+        menuList = ArrayList()
 
+        menuList.add(ProfileMenuItems(R.drawable.ic_my_wishlist, "My Wishlist"))
         menuList.add(ProfileMenuItems(R.drawable.ic_my_addresses, "My Addresses"))
         menuList.add(ProfileMenuItems(R.drawable.ic_saved_cards, "Saved Cards"))
         menuList.add(ProfileMenuItems(R.drawable.ic_orders_history, "Orders History"))

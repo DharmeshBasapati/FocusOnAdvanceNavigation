@@ -3,14 +3,13 @@ package com.app.focusonadvancenavigation.profile.adapter
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.app.focusonadvancenavigation.databinding.RowItemProfileMenusBinding
 import com.app.focusonadvancenavigation.profile.model.ProfileMenuItems
 import com.bumptech.glide.Glide
 import kotlin.random.Random
 
-class ProfileMenuAdapter(private val menuList: List<ProfileMenuItems>) :
+class ProfileMenuAdapter(private val menuList: List<ProfileMenuItems>, val onItemClick:(Any)->Unit) :
     RecyclerView.Adapter<ProfileMenuAdapter.ViewHolder>() {
 
     inner class ViewHolder(val rowItemProfileMenusBinding: RowItemProfileMenusBinding) :
@@ -38,8 +37,7 @@ class ProfileMenuAdapter(private val menuList: List<ProfileMenuItems>) :
                 )
 
                 itemView.setOnClickListener {
-                    Toast.makeText(itemView.context, "You clicked - $menuName", Toast.LENGTH_SHORT)
-                        .show()
+                    onItemClick(position)
                 }
 
             }

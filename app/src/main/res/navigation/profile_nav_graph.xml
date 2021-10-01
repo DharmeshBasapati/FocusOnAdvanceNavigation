@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_myWishlistFragment"
+            app:destination="@id/myWishlistFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.app.focusonadvancenavigation.profile.view.EditProfileFragment"
         android:label="@string/label_edit_profile"
         tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/myWishlistFragment"
+        android:name="com.app.focusonadvancenavigation.profile.view.MyWishlistFragment"
+        android:label="My Wishlist"
+        tools:layout="@layout/fragment_my_wishlist" />
 </navigation>

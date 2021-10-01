@@ -20,6 +20,7 @@ import com.app.focusonadvancenavigation.utils.FocusHelper
 
 class CartFragment : Fragment() {
 
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var cartProductsAdapter: CartProductsAdapter
     private lateinit var productBasketViewModel: ProductBasketViewModel
     private lateinit var binding: FragmentCartBinding
@@ -68,6 +69,7 @@ class CartFragment : Fragment() {
                         removeAt(deleteItemPosition)
                     }
                 updateCartProductsList(newCartProductsList)
+                mainViewModel.updateCartSize(newCartProductsList.size)
 
             }, {
                 //On Quantity Changed
@@ -93,7 +95,7 @@ class CartFragment : Fragment() {
 
     private fun setupObserver() {
 
-        val mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
 
         productBasketViewModel.getCartProducts().observe(requireActivity(), { cartProductsList ->
 

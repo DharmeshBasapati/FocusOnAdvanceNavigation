@@ -53,7 +53,7 @@ class HomeFragment : Fragment() {
         binding.rvProducts.layoutManager =
             StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
 
-        productsAdapter = ProductsAdapter(arrayListOf()) { selectedProduct, imgView ->
+        productsAdapter = ProductsAdapter(false,arrayListOf()) { selectedProduct, imgView ->
             navigateToProductDetail(selectedProduct, imgView)
         }
 

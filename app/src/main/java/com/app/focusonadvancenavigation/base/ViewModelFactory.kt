@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.focusonadvancenavigation.home.viewmodel.HomeViewModel
 import com.app.focusonadvancenavigation.home.viewmodel.ProductBasketViewModel
 import com.app.focusonadvancenavigation.home.viewmodel.ProductDetailViewModel
+import com.app.focusonadvancenavigation.profile.viewmodel.WishlistViewModel
 import com.app.focusonadvancenavigation.room.dao.FocusDao
 
 class ViewModelFactory(private val focusDao: FocusDao) : ViewModelProvider.Factory {
@@ -17,6 +18,9 @@ class ViewModelFactory(private val focusDao: FocusDao) : ViewModelProvider.Facto
         }
         if(modelClass.isAssignableFrom(ProductDetailViewModel::class.java)){
             return ProductDetailViewModel(focusDao) as T
+        }
+        if(modelClass.isAssignableFrom(WishlistViewModel::class.java)){
+            return WishlistViewModel(focusDao) as T
         }
         throw IllegalArgumentException("Unknown Class Name")
     }
